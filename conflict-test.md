@@ -1,1 +1,1 @@
-favorite language: undecided
+favorite language: python
