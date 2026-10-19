@@ -70,3 +70,12 @@ console.log(afterDelete);
 // exe 5
 const left = expenses.reduce((left,e)=> left-e.amount,5000);
 console.log(left);//2400
+
+
+// save: stringify turns  the array into text
+localStorage.setItem("expenses",JSON.stringify(expenses));
+
+//load: getItem returns the text (or null if nothing is saved ); parse turns it back into an array
+//localStorage.removeItem("expenses");
+const saved = JSON.parse(localStorage.getItem("expenses")) || [];
+console.log(saved);
