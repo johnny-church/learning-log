@@ -32,3 +32,41 @@ console.log(expenses[2].category); //transportation
 console.log(expenses[3].amount);// 400
 console.log(expenses[0].id);//1
 console.log(expenses.length);
+
+
+// map , filter , reduce
+const numbers= [1,2,3,4,5];
+
+// map : builds a new arry by changing every item 
+const doubled = numbers.map((n)=>n*2); // (n)=>n*2 this is an arrow func , a short func that means " given n, return n*2"
+console.log (doubled); // [2,4,6,8,10]
+
+//filter: bulids a new array keeping only the items that pass a test
+const big = numbers.filter((n)=> n>2) // for n give items greater than two , means it gives anynumber from three 
+console.log(big);//[3,4,5]
+
+//reduce : boils the array down to one value 
+const total = numbers.reduce((sum,n)=> sum+n , 0);
+console.log(total); //15
+
+const Names = expenses.map((e)=>e.name ); // logic here , e represents  one expense  , so this is like saying given an expense (e) show that expense's name 
+console.log(Names);//["rent", "lunch", "fare", "jeans"]
+
+// exe 1
+const NAmes = expenses.map((e)=> e.name );
+console.log(NAmes);//[1,2,3,4]
+
+// exe 2
+const expensive = expenses.filter((e)=> e.amount>300);
+console.log(expensive);
+
+// exe 3
+const totalAll = expenses.reduce((sum,e)=> sum+e.amount,0);
+console.log(totalAll);//2600  
+// exe 4
+const afterDelete = expenses.filter((e)=> e.id!==2);
+console.log(afterDelete); 
+
+// exe 5
+const left = expenses.reduce((left,e)=> left-e.amount,5000);
+console.log(left);//2400
