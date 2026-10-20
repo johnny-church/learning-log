@@ -27,10 +27,12 @@ const expenses = [
 
 ];
 expenses.push({id:4,name:"jeans",amount: 400, category:"clothing"});
-console.log(expenses[1].name); //lunch
+expenses.push({id:5,name:"spoons",amount:100,category:"utensils"})
+console.log(expenses[1].name); //,lunch
 console.log(expenses[2].category); //transportation
 console.log(expenses[3].amount);// 400
 console.log(expenses[0].id);//1
+console.log(expenses[4].id);//5
 console.log(expenses.length);
 
 
@@ -79,3 +81,28 @@ localStorage.setItem("expenses",JSON.stringify(expenses));
 //localStorage.removeItem("expenses");
 const saved = JSON.parse(localStorage.getItem("expenses")) || [];
 console.log(saved);
+
+// DOM
+const addBtn = document.getElementById("add-btn"); // this takes the button from html and gives it  a name which anables it to do things with it    reads , find element whose id is add-btn and call it addBtn
+const list = document.getElementById("list");// reads find element whose id is list and call it lists
+console.log(addBtn,list)
+
+// listeners
+let count=0;
+addBtn.addEventListener("click" , function()
+{
+    // the code in here will run everytime the button is clicked
+    const item = document.createElement("li");
+    count++ ;
+    item.textContent= "item  "+ count;
+    list.appendChild(item);
+}
+);
+expenses.forEach(function(e)
+{
+    const li =document.createElement("li")
+    li.textContent = ` ${e.name} -ksh ${e.amount} (${e.category})`;
+    list.appendChild(li);
+});
+
+ 
