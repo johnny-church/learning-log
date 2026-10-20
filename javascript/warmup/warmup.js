@@ -27,10 +27,12 @@ const expenses = [
 
 ];
 expenses.push({id:4,name:"jeans",amount: 400, category:"clothing"});
-console.log(expenses[1].name); //lunch
+expenses.push({id:5,name:"spoons",amount:100,category:"utensils"})
+console.log(expenses[1].name); //,lunch
 console.log(expenses[2].category); //transportation
 console.log(expenses[3].amount);// 400
 console.log(expenses[0].id);//1
+console.log(expenses[4].id);//5
 console.log(expenses.length);
 
 
@@ -103,3 +105,4 @@ expenses.forEach(function(e)
     list.appendChild(li);
 });
 
+ 
