@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Exercise runner</title>
+<style>
+  body { font-family: system-ui, sans-serif; max-width: 760px; margin: 0 auto; padding: 16px; background: #f5f5f7; color: #222; }
+  h1 { font-size: 1.3rem; }
+  .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  input[type=file] { font: inherit; }
+  button { font: inherit; padding: 8px 14px; border: 0; border-radius: 6px; background: #2b6cb0; color: #fff; cursor: pointer; }
+  #out { background: #111; color: #e6e6e6; padding: 12px; border-radius: 6px; min-height: 120px; white-space: pre-wrap; font-family: Consolas, monospace; margin-top: 12px; }
+  .err { color: #ff7b7b; }
+  .hint { color: #666; font-size: .9rem; }
+</style>
+</head>
+<body>
+<h1>Exercise runner (works offline)</h1>
+<p class="hint">Pick a .js exercise file, press Run. Save the file in your editor, then press Run again.</p>
+<div class="row">
+  <input type="file" id="file" accept=".js">
+  <button id="run">Run</button>
+</div>
+<div id="out">Output appears here.</div>
+<script>
+const out = document.getElementById("out")
+function fmt(v) {
+  if (typeof v === "string") return v
+  if (typeof v === "number" || typeof v === "boolean" || v === undefined || v === null) return String(v)
+  if (typeof v === "function") return "[Function]"
+  if (v instanceof Promise) return "[Promise]"
+  if (v instanceof Error) return String(v)
+  try { return JSON.stringify(v) } catch (e) { return String(v) }
+}
+function add(text, cls) {
+  const line = document.createElement("div")
+  if (cls) line.className = cls
+  line.textContent = text
+  out.appendChild(line)
+}
+document.getElementById("run").addEventListener("click", () => {
+  const f = document.getElementById("file").files[0]
+  if (!f) { out.textContent = "Choose a file first."; return }
+  const reader = new FileReader()
+  reader.onload = () => {
+    out.textContent = ""
+    // run the file in a fresh iframe so each run starts clean
+    const old = document.getElementById("sandbox")
+    if (old) old.remove()
+    const frame = document.createElement("iframe")
+    frame.id = "sandbox"
+    frame.style.display = "none"
+    document.body.appendChild(frame)
+    const w = frame.contentWindow
+    w.console.log = (...a) => add(a.map(fmt).join(" "))
+    w.console.error = (...a) => add("ERROR: " + a.map(fmt).join(" "), "err")
+    w.addEventListener("error", e => add("ERROR: " + e.message + " (line " + e.lineno + ")", "err"))
+    w.addEventListener("unhandledrejection", e => add("ERROR (promise): " + fmt(e.reason), "err"))
+    const s = w.document.createElement("script")
+    s.textContent = reader.result
+    w.document.body.appendChild(s)
+  }
+  reader.readAsText(f)
+})
+</script>
+</body>
+</html>
