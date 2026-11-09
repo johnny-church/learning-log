@@ -23,11 +23,11 @@ console.log("P2 balance:", balance)
 
 // ---------- PART 3 ----------
 // GOAL: prints "big"
-const price = 5000
- const label = "big";
+let label
 if (price > 1000) {
-  console.log("P3 label:", label)
+  label = "big"
 }
+console.log("P3 label:", label)
 
 
 // ---------- PART 4 ----------
